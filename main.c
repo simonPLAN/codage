@@ -93,8 +93,8 @@ int ** Matrice_Hadamard(int nb_Users, int ** matrice){ /* Génération de la mat
     return matrice;
 }
 
-int ** copie_matrice(int nb_Users, int ** matrice, int **code,int **sequence){ /* Génère une matrice séquence en fonction des codes */
-    int i,j,k,l;
+int ** copie_matrice(int nb_Users, int ** matrice, int **code, int **sequence){ /* Génère une matrice séquence en fonction des codes */
+    int i,j,l;
     for(i=0;i<nb_Users;i++){
         for(j=0;j<3;j++){
             /* On applique la règle du "Si le code est égale à 1 on recopie la matrice d'Hadamard sinon on inverse la valeur à recopier */
@@ -141,7 +141,7 @@ int * canalIdeal( int * etalement){
 
 
 int ** desetalement_sequence(int nb_Users, int * etalement, int ** matrice, int ** sequence, int ** desetalement){ /* Effectue le désétalement */
-    int i, j, x, y;
+    int i, j, x;
     int stockage[nb_Users][taille_matricielle(nb_Users)*3];
     int compteur = 0;
     int compteur2 = 0;
