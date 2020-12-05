@@ -10,6 +10,7 @@ int * codeur_a_longeur_maximale(int n,int a,int b, int sequence[]){// 5,2
   int k,l;
   a--;
   b--;
+  printf("\n a=%d b=%d\n ", a,b);
   int matrice[longueur_max][n];
   // on met la matrice a 0
   for(i=0;i<longueur_max;i++){
@@ -36,13 +37,13 @@ for(i=0;i<longueur_max;i++){
   sequence[i]=matrice[i][n-1];
 }
 
-/*    for(i=0;i<longueur_max;i++){
+   for(i=0;i<longueur_max;i++){
       for(j=0;j<n;j++){
         printf("%d ",matrice[i][j]);
       }
       printf("\n");
     }
-    */
+
     printf("\n");
 
     for(i=0;i<longueur_max;i++){
@@ -102,7 +103,7 @@ int main(){
   int a2=3;
   int b2=1;
   int longueur3=7;
-  int a3=3;
+  int a3=5;
   int b3=1;
   int longueur4=2;
 
@@ -115,7 +116,7 @@ int main(){
   int resultat5[255];
 
 printf("\nresultat1 = ");
-codeur_a_longeur_maximale(longueur1,a1,b2,resultat1);
+codeur_a_longeur_maximale(longueur1,a1,b1,resultat1);
 
 printf("\nresultat2 = ");
 codeur_a_longeur_maximale(longueur2,a2,b2,resultat2);
