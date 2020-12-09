@@ -87,9 +87,110 @@ void Codeur_HDBn(int data[], int taille_data, int n){
     afficher_tableau(res, taille_data);
 
 }
+void afficheur_matrice_globale(float matrice_global[10][4],int sans_doublon){
+  int i,j;
+  printf("\n");
+
+  for(i=0;i<sans_doublon;i++){
+    for(j=0;j<4;j++){
+      printf("%.3f | ", matrice_global[i][j]);
+    }
+    printf("\n");
+  }
+}
+
+void Codeur_arithmetique(int tab_arithmetique[], int taille_tableau){
+  float matrice_global[taille_tableau][4];
+  int i,j;
+  float borneInf=0,borneSup=0,intervalle=0;
+  int sans_doublon=taille_tableau;
+  for(i=0;i<10;i++){
+    for(j=0;j<4;j++){
+      matrice_global[i][j]=0;
+    }
+  }
+  matrice_global[0][0]=tab_arithmetique[0];
+  matrice_global[0][1]=1;
+  for(i=1;i<10;i++){
+    for(j=0;j<i;j++){
+      if(matrice_global[j][0]==tab_arithmetique[i]){ // si on a deja le meme caractere
+        matrice_global[j][1]+=1;
+        sans_doublon-=1;
+
+        }
+      else{
+        matrice_global[i][0]=tab_arithmetique[i];
+        matrice_global[i][1]=1;
+      }
+    }
+  }//fin for
+  //printf("\n%d\n",sans_doublon);
+//  afficheur_matrice_globale(matrice_global,sans_doublon);
+
+  for(i=0;i<sans_doublon;i++){
+    matrice_global[i][1]=  matrice_global[i][1]/taille_tableau;
+  }
+  afficheur_matrice_globale(matrice_global,sans_doublon);
+  matrice_global[0][2]=0;
+matrice_global[0][3]=matrice_global[0][1];
+  for(i=1;i<sans_doublon;i++){
+    matrice_global[i][2]=matrice_global[i-1][3];
+    matrice_global[i][3]=matrice_global[i][1]+matrice_global[i][2];
+  }
+  afficheur_matrice_globale(matrice_global,sans_doublon);
+
+
+  for(i=0;i<sans_doublon;i++){
+    if(i>0){
+      intervalle=borneSup-borneInf;
+      borneSup=borneInf+(matrice_global[i][3]*intervalle);
+      borneInf=borneInf+(matrice_global[i][2]*intervalle);
+    }
+    else{
+      intervalle=matrice_global[0][3]-matrice_global[0][2];
+      borneSup=matrice_global[0][3];
+      borneInf=matrice_global[i][2];
+    }
+
+
+  }
+  printf("\n%f\n",borneInf);
+
+}
+
 
 int main(){
     int data[] = {1,0,0,1,0,1,0,0,0,0,0,0,1,1,0,0,0,0,1,1,1,0,0};
     int taille_data = 23;
-    Codeur_HDBn(data, taille_data, 2);
+    int codeur=0;
+    int i;
+    int taille_tableau=0;
+    char phrase[255];
+    int tab_arithmetique[255];
+    printf("hdbn = 1 arithmetique =2 \n");
+    scanf("%d",&codeur);
+    switch (codeur) {
+      case 1:
+      Codeur_HDBn(data, taille_data, 2);
+
+      break;
+      case 2:
+      printf("Saisir le mot à encoder \n");
+      scanf(" %[^\n]",phrase);
+      printf("phrase = %s \n",phrase);
+
+      for(i=0;i<10;i++){
+        tab_arithmetique[i]=phrase[i];// on transforme la chaine de caractere en int
+        taille_tableau+=1;
+        }
+        for(i=0;i<8;i++){
+        printf("%d|",tab_arithmetique[i]);
+        }
+      Codeur_arithmetique( tab_arithmetique, taille_tableau);
+      break;
+    }
+
+
+
+
 }
