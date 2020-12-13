@@ -13,28 +13,28 @@ void afficher_tableau(int tab[], int taille_tab){
 }
 
 void Codeur_HDBn(int data[], int taille_data, int n){
-    int dernier_i = negatif;
-    int dernier_v = negatif;
-    int dernier_b = positif;
-    int res[taille_data];
-    int tab_v[taille_data];
-    int tab_b[taille_data];
+    int dernier_i = negatif; /* Enregistre la valeur du dernier i */
+    int dernier_v = negatif; /* Enregistre la valeur du dernier V */
+    int dernier_b = positif; /* Enregistre la valeur du dernier B */
+    int res[taille_data]; /* Résultat final du codeur HDBn */ 
+    int tab_v[taille_data]; /* Stock tous les états de V */
+    int tab_b[taille_data]; /* Stock tous les états de B */
     int i;
-    int combien_de_0 = 0;
+    int combien_de_0 = 0; /* Compte combiens de zéros consécutifs on rencontre*/
 
-    for (i = 0 ; i < taille_data ; i ++){
+    for (i = 0 ; i < taille_data ; i ++){ /* Initialisation des valeurs à neutres */
         res[i] = neutre;
         tab_b[i] = neutre;
         tab_v[i] = neutre;
     }
+    /* le premier V est négatif et le premier B est positif */
     tab_v[0] = negatif;
     tab_b[0] = positif;
-
     for (i = 0 ; i < taille_data ; i++){
-        if (data[i] == 0 && combien_de_0 < n){
+        if (data[i] == 0 && combien_de_0 < n){ /* Si l'on rencontre un zéro et qu'on ne rentre pas dans l'algorithme du codeur HDBn on continue */
             combien_de_0++;
         }
-        else if(data[i] == 0 && combien_de_0 >= n){
+        else if(data[i] == 0 && combien_de_0 >= n){ /* Si on a atteint n zéros consécutifs alors on applique l'algorithme du codeur HDBn */
             combien_de_0 = 0;
             if(dernier_v == positif){
                 if (dernier_i == positif){
@@ -63,7 +63,7 @@ void Codeur_HDBn(int data[], int taille_data, int n){
                 }
             }
         }
-        else if (data[i] == 1){
+        else if (data[i] == 1){ /* On rempli res[i] à la rencontre d'un 1 */
             combien_de_0 = 0;
             if (dernier_i == positif){
                 res[i] = negatif;
@@ -151,8 +151,9 @@ void Codeur_arithmetique(int tab_arithmetique[], int taille_tableau){
 }
 
 int main(){
-    int data[] = {1,0,0,1,0,1,0,0,0,0,0,0,1,1,0,0,0,0,1,1,1,0,0};
-    int taille_data = 23;
+    int data[256];
+    int taille_data;
+    int saisir_data = -1;
     int choix;
     int i, n;
     int taille_tableau = 0;
@@ -164,22 +165,38 @@ int main(){
     }while(choix != 1 && choix != 2);
     switch (choix) {
         case 1:
+            do{
+                printf("Saisir le nombre de bits du messages : ");
+                scanf("%d", &taille_data);
+            }while(taille_data < 1);
             printf("Saisir la valeur de n pour le HDBn : ");
             scanf("%d", &n);
+            for (i = 0; i < taille_data; i++){
+                do {
+                    printf("Saisir le %d bits du message a envoyer au codeur HDB%d : ", i+1, n);
+                    scanf("%d", &saisir_data);
+                }while(saisir_data != 0 && saisir_data != 1);   /* On empêche l'utilisateur de saisir des valeurs interdites dans les données */
+                data[i] = saisir_data;
+            }
             Codeur_HDBn(data, taille_data, n);
             break;
         case 2:
+        
             printf("Saisir le mot à encoder \n");
             scanf(" %[^\n]",phrase);
             printf("phrase = %s \n",phrase);
-            for( i = 0; i < 10; i++ ){
+            for( i = 0; phrase[i]; i++ ){
                 tab_arithmetique[i] = phrase[i]; // on transforme la chaine de caractere en int
                 taille_tableau += 1;
             }
+            printf("Taille de la phrase : %d \n", taille_tableau);
+            /*
             for( i = 0; i < 8; i++ ){
              printf("%d|",tab_arithmetique[i]);
             }
             Codeur_arithmetique(tab_arithmetique, taille_tableau);
+            */
+            autre_Codeur_Arithmetique(tab_arithmetique, taille_tableau);
             break;
     }
 }
